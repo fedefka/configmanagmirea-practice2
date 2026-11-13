@@ -1,0 +1,4 @@
+package: A
+repository: graph.txt
+test_mode: true
+filter: ""
