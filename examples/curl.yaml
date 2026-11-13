@@ -1,0 +1,4 @@
+package: curl
+repository: https://dl-cdn.alpinelinux.org/alpine/v3.22/main/aarch64
+test_mode: false
+filter: ""

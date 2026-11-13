@@ -1,0 +1,24 @@
+digraph "apkindex" {
+  rankdir=LR;
+  node [shape=box];
+  "busybox-1.37.0-r20" -> "musl-1.2.5-r13"[arrowhead=inv,label="so:libc.musl-aarch64.so.1",];
+  "busybox-binsh-1.37.0-r20" -> "busybox-1.37.0-r20"[];
+  "bash-5.2.37-r0" -> "busybox-binsh-1.37.0-r20"[arrowhead=inv,label="/bin/sh",];
+  "dash-binsh-0.5.12-r3" -> "busybox-1.37.0-r20"[];
+  "dash-0.5.12-r3" -> "busybox-1.37.0-r20"[];
+  "dash-0.5.12-r3" -> "musl-1.2.5-r13"[arrowhead=inv,label="so:libc.musl-aarch64.so.1",];
+  "dash-binsh-0.5.12-r3" -> "dash-0.5.12-r3"[];
+  "bash-5.2.37-r0" -> "dash-binsh-0.5.12-r3"[arrowhead=inv,label="/bin/sh",];
+  "yash-binsh-2.58.1-r0" -> "busybox-1.37.0-r20"[];
+  "yash-2.58.1-r0" -> "busybox-1.37.0-r20"[];
+  "yash-2.58.1-r0" -> "musl-1.2.5-r13"[arrowhead=inv,label="so:libc.musl-aarch64.so.1",];
+  "libncursesw-6.5_p20250503-r0" -> "ncurses-terminfo-base-6.5_p20250503-r0"[];
+  "libncursesw-6.5_p20250503-r0" -> "musl-1.2.5-r13"[arrowhead=inv,label="so:libc.musl-aarch64.so.1",];
+  "yash-2.58.1-r0" -> "libncursesw-6.5_p20250503-r0"[arrowhead=inv,label="so:libncursesw.so.6",];
+  "yash-binsh-2.58.1-r0" -> "yash-2.58.1-r0"[];
+  "bash-5.2.37-r0" -> "yash-binsh-2.58.1-r0"[arrowhead=inv,label="/bin/sh",];
+  "bash-5.2.37-r0" -> "musl-1.2.5-r13"[arrowhead=inv,label="so:libc.musl-aarch64.so.1",];
+  "readline-8.2.13-r1" -> "musl-1.2.5-r13"[arrowhead=inv,label="so:libc.musl-aarch64.so.1",];
+  "readline-8.2.13-r1" -> "libncursesw-6.5_p20250503-r0"[arrowhead=inv,label="so:libncursesw.so.6",];
+  "bash-5.2.37-r0" -> "readline-8.2.13-r1"[arrowhead=inv,label="so:libreadline.so.8",];
+}

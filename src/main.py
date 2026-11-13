@@ -5,7 +5,8 @@ from pathlib import Path
 import yaml
 from apk_index import load_index
 from config import DEFAULT_CONFIG, load_config, repository_path
-from graph import build_graph, read_test_graph, reverse_edges
+from graph import build_graph, read_test_graph
+from visualize import save_graph, show_graph
 from providers import package_neighbors
 def get_repository(config, folder):
     name = config['package']
@@ -21,15 +22,18 @@ def get_repository(config, folder):
 def main():
     parser = argparse.ArgumentParser(description='Граф зависимостей Alpine')
     parser.add_argument('config', nargs='?', type=Path, default=DEFAULT_CONFIG)
+    parser.add_argument('--no-open', action='store_true')
     args = parser.parse_args()
     try:
         config = load_config(args.config)
-        names, neighbors = get_repository(config, args.config.parent)
-        reverse = reverse_edges(names, neighbors)
-        package = config['package']
-        graph = build_graph(package, reverse.__getitem__, config['filter'])
-        print(f'Обратные зависимости {package}:')
-        print('\n'.join(name for name in graph if name != package) or 'Нет')
+        _, neighbors = get_repository(config, args.config.parent)
+        graph = build_graph(config['package'], neighbors, config['filter'])
+        folder = DEFAULT_CONFIG.parent / 'build' / config['package']
+        image = save_graph(graph, folder)
+        print(f'Mermaid: {folder / "graph.mmd"}')
+        print(f'SVG: {image}')
+        if not args.no_open:
+            show_graph(image)
     except (OSError, ValueError, tarfile.TarError, yaml.YAMLError) as error:
         print(f'Ошибка: {error}', file=sys.stderr)
         return 1
