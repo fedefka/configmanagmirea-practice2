@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(root / 'src'))
-from graph import build_graph, read_test_graph
+from graph import build_graph, read_test_graph, reverse_edges
 from providers import package_neighbors
 CHAIN_END = 1500
 class GraphTests(unittest.TestCase):
@@ -32,3 +32,12 @@ class GraphTests(unittest.TestCase):
         result = build_graph('root', package_neighbors(packages))
         self.assertEqual(result['root'], ['new', 'other', 'absent'])
         self.assertEqual(result['absent'], [])
+    def test_reverse_dependencies(self):
+        graph = read_test_graph(root / 'examples/graph.txt')
+        reverse = reverse_edges(graph, graph.__getitem__)
+        result = build_graph('D', reverse.__getitem__)
+        self.assertEqual(list(result), ['D', 'B', 'C', 'A', 'E'])
+        self.assertEqual(result['A'], ['D'])
+        self.assertEqual(build_graph('F', reverse.__getitem__), {'F': []})
+        result = build_graph('D', reverse.__getitem__, 'C')
+        self.assertEqual(list(result), ['D', 'B', 'A'])

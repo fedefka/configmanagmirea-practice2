@@ -52,3 +52,9 @@ def build_graph(start, neighbors, excluded=''):
 def print_graph(graph):
     for name, targets in graph.items():
         print(f'{name}: {" ".join(targets) or "-"}')
+def reverse_edges(names, neighbors):
+    reverse = {name: [] for name in names}
+    for name in reverse.copy():
+        for dependency in dict.fromkeys(neighbors(name)):
+            reverse.setdefault(dependency, []).append(name)
+    return reverse
